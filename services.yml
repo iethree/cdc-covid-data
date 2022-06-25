@@ -1,0 +1,14 @@
+apps:
+  - script        : index.js
+    cwd           : ./dist/src
+    name          : cdc-fetcher
+    autorestart   : false
+    node_args     : --experimental-specifier-resolution=node
+    cron_restart  : 30 1 * * * # every day
+    env:
+      PGHOST: localhost
+      PGDATABASE: cdc_data
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: example_password
+
