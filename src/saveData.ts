@@ -13,7 +13,8 @@ export async function saveData(dataset: string, data: any[]): Promise<number | n
 
   const query = /*sql*/`INSERT INTO ${dataset}
     (${cols.map((c) => escapeStr(c, '"')).join(',')})
-    VALUES ${params};
+    VALUES ${params}
+    ON CONFLICT DO NOTHING;
   `;
 
   const res = await client.query(query).catch((err) => {

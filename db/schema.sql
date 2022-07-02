@@ -1,4 +1,6 @@
 CREATE TABLE IF NOT EXISTS "county_view_state_data" (
+    record_id SERIAL,
+    created_at TIMESTAMP DEFAULT NOW(),
     "state" VARCHAR(8),
     "date" DATE,
     "statename" VARCHAR(64),
@@ -11,6 +13,8 @@ CREATE TABLE IF NOT EXISTS "county_view_state_data" (
 );
 
 CREATE TABLE IF NOT EXISTS US_MAP_DATA (
+    record_id SERIAL,
+    created_at TIMESTAMP DEFAULT NOW(),
     "abbr" VARCHAR(8),
     "tot_cases" INT,
     "tot_cases_last_24_hours" INT,
@@ -37,6 +41,8 @@ CREATE TABLE IF NOT EXISTS US_MAP_DATA (
 );
 
 CREATE TABLE IF NOT EXISTS "integrated_county_latest_external_data" (
+    record_id SERIAL,
+    created_at TIMESTAMP DEFAULT NOW(),
     "fips_code" INT,
     "State" VARCHAR(8),
     "State_name" VARCHAR(64),
@@ -109,9 +115,11 @@ CREATE TABLE IF NOT EXISTS "integrated_county_latest_external_data" (
 );
 
 CREATE TABLE IF NOT EXISTS vaccination_county_condensed_data (
+    record_id SERIAL,
+    created_at TIMESTAMP DEFAULT NOW(),
     "Date" DATE,
     "FIPS" VARCHAR(16),
-    "StateName" VARCHAR(32),
+    "StateName" VARCHAR(64),
     "StateAbbr" VARCHAR(16),
     "County" VARCHAR(128),
     "Series_Complete_5Plus" INT,
@@ -169,3 +177,11 @@ CREATE TABLE IF NOT EXISTS vaccination_county_condensed_data (
     "Booster_Doses_18PlusVax_Pct_UR_Equity" INT,
     "Booster_Doses_65PlusVax_Pct_UR_Equity" INT
 );
+
+CREATE UNIQUE INDEX "unique_idx" ON "county_view_state_data"(state, date);
+
+CREATE UNIQUE INDEX "unique_idx_us_map" ON "us_map_data"(id, us_trend_maxdate);
+
+CREATE UNIQUE INDEX "unique_idx_county_covid" ON "integrated_county_latest_external_data"(fips_code, "CCL_report_date");
+
+CREATE UNIQUE INDEX "unique_idx_county_vax" ON "vaccination_county_condensed_data"("FIPS", "Date");
