@@ -26,5 +26,5 @@ for (const dataset of datasets) {
   console.log('✅', savedRows, 'rows saved\n');
 }
 
-console.log(`✅ done`);
+console.log(`✅ done`, new Date());
 process.exit(0);
